@@ -9,18 +9,17 @@ model = joblib.load('XGBoost.pkl')
 X_test = pd.read_csv('X_test.csv')
 feature_names = ["histology", "Gleason", "Abiraterone", "prostate_RT", "Metastatic_burden", "diabetes", "Metformin","PTEN", "BRCA", "age", "PSA"]
 st.title("Parp inhibitors effectively reduce PSA predictors")
-histology = st.selectbox("Histology:", options=[0, 1], format_func=lambda x: "Other" if x == 1 else "Adenocarcinoma")
+histology = st.selectbox("Histology:", options=[0, 1], format_func=lambda x: "Others" if x == 1 else "Adenocarcinoma")
 Gleason = st.selectbox("Gleason:", options=[0, 1], format_func=lambda x: "9-10" if x == 1 else "6-8")
 Abiraterone = st.selectbox("Abiraterone:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
 prostate_RT = st.selectbox("Radical prostatectomy:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
-Metastatic_burden = st.selectbox("The situation of distant metastasis:", options=[0, 1], format_func=lambda x: "Bone or organ metastasis" if x == 1 else "Other")
+Metastatic_burden = st.selectbox("The situation of distant metastasis:", options=[0, 1], format_func=lambda x: "Bone or organ metastasis" if x == 1 else "No or lymph node metastasis")
 diabetes = st.selectbox("Diabetes:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
 Metformin = st.selectbox("Metformin:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
 PTEN = st.selectbox("PTEN alterations:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
 BRCA = st.selectbox("BRCA alterations:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
-age = st.selectbox("Age:", options=[0, 1], format_func=lambda x: "Age>70" if x == 1 else "Other")
-PSA = st.selectbox("PSA:", options=[0, 1], format_func=lambda x: "PSA>68ng/mL" if x == 1 else "Other")
-feature_values = [histology, Gleason, Abiraterone, prostate_RT, Metastatic_burden, diabetes, Metformin,PTEN,BRCA, age, PSA]
+age = st.selectbox("Age:", options=[0, 1], format_func=lambda x: "Age>70" if x == 1 else "Age≤70")
+PSA = st.selectbox("PSA:", options=[0, 1], format_func=lambda x: "PSA>68ng/mL" if x == 1 else "PSA≤68ng/mL")feature_values = [histology, Gleason, Abiraterone, prostate_RT, Metastatic_burden, diabetes, Metformin,PTEN,BRCA, age, PSA]
 features = np.array([feature_values])
 if st.button("Predict"):
     # Predict class and probabilities
@@ -49,6 +48,7 @@ if st.button("Predict"):
     # Display the SHAP force plot for the predicted class
     shap.force_plot(explainer.expected_value, shap_values[0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)        
     plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
+    st.image("shap_force_plot.png")
     # LIME Explanation
     st.subheader("LIME Explanation")
     lime_explainer = LimeTabularExplainer(
