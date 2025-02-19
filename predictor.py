@@ -19,7 +19,8 @@ Metformin = st.selectbox("Metformin:", options=[0, 1], format_func=lambda x: "Ye
 PTEN = st.selectbox("PTEN alterations:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
 BRCA = st.selectbox("BRCA alterations:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
 age = st.selectbox("Age:", options=[0, 1], format_func=lambda x: "Age>70" if x == 1 else "Age≤70")
-PSA = st.selectbox("PSA:", options=[0, 1], format_func=lambda x: "PSA>68ng/mL" if x == 1 else "PSA≤68ng/mL")feature_values = [histology, Gleason, Abiraterone, prostate_RT, Metastatic_burden, diabetes, Metformin,PTEN,BRCA, age, PSA]
+PSA = st.selectbox("PSA:", options=[0, 1], format_func=lambda x: "PSA>68ng/mL" if x == 1 else "PSA≤68ng/mL")
+feature_values = [histology, Gleason, Abiraterone, prostate_RT, Metastatic_burden, diabetes, Metformin,PTEN,BRCA, age, PSA]
 features = np.array([feature_values])
 if st.button("Predict"):
     # Predict class and probabilities
