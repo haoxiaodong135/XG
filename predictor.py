@@ -6,6 +6,7 @@ import shap
 import matplotlib.pyplot as plt
 from lime.lime_tabular import LimeTabularExplainer
 model = joblib.load('XGBoost.pkl')
+X_test = pd.read_csv('X_test.csv')
 feature_names = ["histology", "Gleason", "Abiraterone", "prostate_RT", "Metastatic_burden", "diabetes", "Metformin","PTEN", "BRCA", "age", "PSA"]
 st.title("Parp inhibitors effectively reduce PSA predictors")
 histology = st.selectbox("Histology:", options=[0, 1], format_func=lambda x: "Other" if x == 1 else "Adenocarcinoma")
